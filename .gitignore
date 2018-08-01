@@ -1,0 +1,15 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/gpk_android/gpk_android.NativeActivity/ARM
+/gpk_android/gpk_android.NativeActivity/ARM64
+/gpk_android/gpk_android.NativeActivity/x86
+/android_llc/ARM64
+/android_llc/ARM
+/android_gpk/ARM64
+/gpk_android/gpk_android.Packaging/ARM
+/gpk_android/gpk_android.Packaging/ARM64
+/gpk_android/gpk_android.Packaging/x86
+

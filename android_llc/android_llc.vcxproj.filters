@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="..\..\gpk\llc\gpk_log.h" />
+    <ClInclude Include="..\..\gpk\llc\gpk_memory.h" />
+    <ClInclude Include="..\..\gpk\llc\gpk_platform.h" />
+    <ClInclude Include="..\..\gpk\llc\gpk_size.h" />
+    <ClInclude Include="..\..\gpk\llc\gpk_sync.h" />
+    <ClInclude Include="..\..\gpk\llc\gpk_typeint.h" />
+    <ClInclude Include="..\..\gpk\llc\gpk_auto_handler.h" />
+    <ClInclude Include="..\..\gpk\llc\gpk_bit.h" />
+    <ClInclude Include="..\..\gpk\llc\gpk_debug.h" />
+    <ClInclude Include="..\..\gpk\llc\gpk_error.h" />
+    <ClInclude Include="..\..\gpk\llc\gpk_eval.h" />
+    <ClInclude Include="..\..\gpk\llc\gpk_io.h" />
+    <ClInclude Include="..\..\gpk\llc\gpk_string.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\gpk\llc\gpk_log.cpp" />
+  </ItemGroup>
+</Project>
