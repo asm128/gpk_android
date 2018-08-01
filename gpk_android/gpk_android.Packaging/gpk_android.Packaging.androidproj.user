@@ -6,6 +6,30 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <DebuggerFlavor>AndroidDebugger</DebuggerFlavor>
-    <AndroidDeviceID>emulator-5554;VisualStudio_android-23_arm_phone</AndroidDeviceID>
+    <AndroidDeviceID>emulator-####;VisualStudio_android-23_arm_tablet</AndroidDeviceID>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
+    <DebuggerFlavor>AndroidDebugger</DebuggerFlavor>
+    <AndroidDeviceID>emulator-####;VisualStudio_android-23_arm_tablet</AndroidDeviceID>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
+    <AndroidDeviceID>emulator-####;VisualStudio_android-23_arm_tablet</AndroidDeviceID>
+    <DebuggerFlavor>AndroidDebugger</DebuggerFlavor>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
+    <AndroidDeviceID>emulator-####;VisualStudio_android-23_arm_tablet</AndroidDeviceID>
+    <DebuggerFlavor>AndroidDebugger</DebuggerFlavor>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <AndroidDeviceID>emulator-####;VisualStudio_android-23_arm_tablet</AndroidDeviceID>
+    <DebuggerFlavor>AndroidDebugger</DebuggerFlavor>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <AndroidDeviceID>emulator-####;VisualStudio_android-23_arm_tablet</AndroidDeviceID>
+    <DebuggerFlavor>AndroidDebugger</DebuggerFlavor>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+    <AndroidDeviceID>emulator-####;VisualStudio_android-23_arm_tablet</AndroidDeviceID>
+    <DebuggerFlavor>AndroidDebugger</DebuggerFlavor>
   </PropertyGroup>
 </Project>
