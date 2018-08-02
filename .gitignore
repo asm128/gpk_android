@@ -3,26 +3,3 @@
 ################################################################################
 
 /.vs
-/gpk_android/gpk_android.NativeActivity/x86
-/gpk_android/gpk_android.NativeActivity/x64
-/gpk_android/gpk_android.NativeActivity/ARM
-/gpk_android/gpk_android.NativeActivity/ARM64
-/gpk_android/gpk_android.Packaging/x86
-/gpk_android/gpk_android.Packaging/x64
-/gpk_android/gpk_android.Packaging/ARM
-/gpk_android/gpk_android.Packaging/ARM64
-
-/ARM
-/ARM64
-/android_gpk/x64
-/android_gpk/x86
-/android_gpk/ARM
-/android_gpk/ARM64
-/android_llc/x64
-/android_llc/x86
-/android_llc/ARM
-/android_llc/ARM64
-
-/x64
-/x86
-/ARM.Debug

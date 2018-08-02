@@ -44,27 +44,27 @@ int8_t android_app_read_cmd(struct android_app* android_app) {
 
 static void print_cur_config(struct android_app* android_app) {
     char lang[2], country[2];
-    AConfiguration_getLanguage(android_app->config, lang);
-    AConfiguration_getCountry(android_app->config, country);
+    AConfiguration_getLanguage	(android_app->config, lang);
+    AConfiguration_getCountry	(android_app->config, country);
 
     LOGV("Config: mcc=%d mnc=%d lang=%c%c cnt=%c%c orien=%d touch=%d dens=%d "
             "keys=%d nav=%d keysHid=%d navHid=%d sdk=%d size=%d long=%d "
             "modetype=%d modenight=%d",
-            AConfiguration_getMcc(android_app->config),
-            AConfiguration_getMnc(android_app->config),
+            AConfiguration_getMcc			(android_app->config),
+            AConfiguration_getMnc			(android_app->config),
             lang[0], lang[1], country[0], country[1],
-            AConfiguration_getOrientation(android_app->config),
-            AConfiguration_getTouchscreen(android_app->config),
-            AConfiguration_getDensity(android_app->config),
-            AConfiguration_getKeyboard(android_app->config),
-            AConfiguration_getNavigation(android_app->config),
-            AConfiguration_getKeysHidden(android_app->config),
-            AConfiguration_getNavHidden(android_app->config),
-            AConfiguration_getSdkVersion(android_app->config),
-            AConfiguration_getScreenSize(android_app->config),
-            AConfiguration_getScreenLong(android_app->config),
-            AConfiguration_getUiModeType(android_app->config),
-            AConfiguration_getUiModeNight(android_app->config));
+            AConfiguration_getOrientation	(android_app->config),
+            AConfiguration_getTouchscreen	(android_app->config),
+            AConfiguration_getDensity		(android_app->config),
+            AConfiguration_getKeyboard		(android_app->config),
+            AConfiguration_getNavigation	(android_app->config),
+            AConfiguration_getKeysHidden	(android_app->config),
+            AConfiguration_getNavHidden		(android_app->config),
+            AConfiguration_getSdkVersion	(android_app->config),
+            AConfiguration_getScreenSize	(android_app->config),
+            AConfiguration_getScreenLong	(android_app->config),
+            AConfiguration_getUiModeType	(android_app->config),
+            AConfiguration_getUiModeNight	(android_app->config));
 }
 
 void android_app_pre_exec_cmd(struct android_app* android_app, int8_t cmd) {

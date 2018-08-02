@@ -35,9 +35,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{f8317be0-bd51-4b7e-89ec-d8210a404f2b}</ProjectGuid>
+    <ProjectGuid>{68aa0bc9-54ff-4170-9804-604d1ebd5b51}</ProjectGuid>
     <Keyword>Android</Keyword>
-    <RootNamespace>gpk_android</RootNamespace>
+    <RootNamespace>android_grt</RootNamespace>
     <DefaultLanguage>en-US</DefaultLanguage>
     <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
     <ApplicationType>Android</ApplicationType>
@@ -149,125 +149,93 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
     <ClCompile>
       <CompileAs>CompileAsCpp</CompileAs>
-      <AdditionalOptions>-Wno-unused-value -Wno-unused-variable -Wno-switch</AdditionalOptions>
-      <AdditionalIncludeDirectories>..\..\..\gpk\llc;..\..\..\gpk\gpk;$(Sysroot)\usr\include; $(Sysroot)\..\..\..\sysroot\usr; $(StlIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\gpk\llc;..\..\..\gpk\gpk; $(Sysroot)\usr\include; $(Sysroot)\..\..\..\sysroot\usr; $(StlIncludeDirectories)</AdditionalIncludeDirectories>
       <CppLanguageStandard>c++1y</CppLanguageStandard>
-      <PreprocessorDefinitions>_DEBUG; </PreprocessorDefinitions>
+      <AdditionalOptions>-Wno-unused-value -Wno-unused-variable -Wno-switch</AdditionalOptions>
+      <PreprocessorDefinitions>_DEBUG</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <LibraryDependencies>%(LibraryDependencies);GLESv1_CM;EGL;</LibraryDependencies>
-      <AdditionalLibraryDirectories>$(OutDir); %(AdditionalLibraryDirectories);$(ToolchainPrebuiltPath)\lib\gcc\$(ToolchainName)\$(ToolchainFullVersionName);$(StlLibraryPath)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>
-      </AdditionalDependencies>
-      <SharedLibrarySearchPath>$(OutDir);%(SharedLibrarySearchPath);$(Sysroot)\usr\lib;</SharedLibrarySearchPath>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
     <ClCompile>
       <CompileAs>CompileAsCpp</CompileAs>
-      <AdditionalOptions>-Wno-unused-value -Wno-unused-variable -Wno-switch</AdditionalOptions>
-      <AdditionalIncludeDirectories>..\..\..\gpk\llc;..\..\..\gpk\gpk;$(Sysroot)\usr\include; $(Sysroot)\..\..\..\sysroot\usr; $(StlIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\gpk\llc;..\..\..\gpk\gpk; $(Sysroot)\usr\include; $(Sysroot)\..\..\..\sysroot\usr; $(StlIncludeDirectories)</AdditionalIncludeDirectories>
       <CppLanguageStandard>c++1y</CppLanguageStandard>
+      <AdditionalOptions>-Wno-unused-value -Wno-unused-variable -Wno-switch</AdditionalOptions>
     </ClCompile>
     <Link>
       <LibraryDependencies>%(LibraryDependencies);GLESv1_CM;EGL;</LibraryDependencies>
-      <AdditionalLibraryDirectories>$(OutDir); %(AdditionalLibraryDirectories);$(ToolchainPrebuiltPath)\lib\gcc\$(ToolchainName)\$(ToolchainFullVersionName);$(StlLibraryPath)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>
-      </AdditionalDependencies>
-      <SharedLibrarySearchPath>$(OutDir);%(SharedLibrarySearchPath);$(Sysroot)\usr\lib;</SharedLibrarySearchPath>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <ClCompile>
       <CompileAs>CompileAsCpp</CompileAs>
-      <AdditionalIncludeDirectories>..\..\..\gpk\llc;..\..\..\gpk\gpk;$(Sysroot)\usr\include; $(Sysroot)\..\..\..\sysroot\usr; $(StlIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalOptions>-Wno-unused-value -Wno-unused-variable -Wno-switch</AdditionalOptions>
+      <AdditionalIncludeDirectories>..\..\..\gpk\llc;..\..\..\gpk\gpk; $(Sysroot)\usr\include; $(Sysroot)\..\..\..\sysroot\usr; $(StlIncludeDirectories)</AdditionalIncludeDirectories>
       <CppLanguageStandard>c++1y</CppLanguageStandard>
-      <PreprocessorDefinitions>_DEBUG; </PreprocessorDefinitions>
+      <AdditionalOptions>-Wno-unused-value -Wno-unused-variable -Wno-switch</AdditionalOptions>
+      <PreprocessorDefinitions>_DEBUG</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <LibraryDependencies>%(LibraryDependencies);GLESv1_CM;EGL;</LibraryDependencies>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories);$(ToolchainPrebuiltPath)\lib\gcc\$(ToolchainName)\$(ToolchainFullVersionName)\$(PlatformShortName);$(StlLibraryPath);$(OutDir);</AdditionalLibraryDirectories>
-      <AdditionalDependencies>
-      </AdditionalDependencies>
-      <SharedLibrarySearchPath>%(SharedLibrarySearchPath);$(Sysroot)\usr\lib;</SharedLibrarySearchPath>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
     <ClCompile>
       <CompileAs>CompileAsCpp</CompileAs>
-      <AdditionalIncludeDirectories>..\..\..\gpk\llc;..\..\..\gpk\gpk;$(Sysroot)\usr\include; $(Sysroot)\..\..\..\sysroot\usr; $(StlIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalOptions>-Wno-unused-value -Wno-unused-variable -Wno-switch</AdditionalOptions>
+      <AdditionalIncludeDirectories>..\..\..\gpk\llc;..\..\..\gpk\gpk; $(Sysroot)\usr\include; $(Sysroot)\..\..\..\sysroot\usr; $(StlIncludeDirectories)</AdditionalIncludeDirectories>
       <CppLanguageStandard>c++1y</CppLanguageStandard>
+      <AdditionalOptions>-Wno-unused-value -Wno-unused-variable -Wno-switch</AdditionalOptions>
     </ClCompile>
     <Link>
       <LibraryDependencies>%(LibraryDependencies);GLESv1_CM;EGL;</LibraryDependencies>
-      <AdditionalLibraryDirectories>$(OutDir); %(AdditionalLibraryDirectories);$(ToolchainPrebuiltPath)\lib\gcc\$(ToolchainName)\$(ToolchainFullVersionName)\$(PlatformShortName);$(StlLibraryPath)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>
-      </AdditionalDependencies>
-      <SharedLibrarySearchPath>$(OutDir);%(SharedLibrarySearchPath);$(Sysroot)\usr\lib;</SharedLibrarySearchPath>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <CompileAs>CompileAsCpp</CompileAs>
-      <AdditionalOptions>-Wno-unused-value -Wno-unused-variable -Wno-switch</AdditionalOptions>
-      <AdditionalIncludeDirectories>..\..\..\gpk\llc;..\..\..\gpk\gpk;$(Sysroot)\usr\include; $(Sysroot)\..\..\..\sysroot\usr; $(StlIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\gpk\llc;..\..\..\gpk\gpk; $(Sysroot)\usr\include; $(Sysroot)\..\..\..\sysroot\usr; $(StlIncludeDirectories)</AdditionalIncludeDirectories>
       <CppLanguageStandard>c++1y</CppLanguageStandard>
-      <PreprocessorDefinitions>_DEBUG; </PreprocessorDefinitions>
+      <AdditionalOptions>-Wno-unused-value -Wno-unused-variable -Wno-switch</AdditionalOptions>
+      <PreprocessorDefinitions>_DEBUG</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <LibraryDependencies>%(LibraryDependencies);GLESv1_CM;EGL;</LibraryDependencies>
-      <AdditionalLibraryDirectories>$(OutDir); %(AdditionalLibraryDirectories);$(ToolchainPrebuiltPath)\lib\gcc\x86_64-linux-android\$(ToolchainFullVersionName);$(StlLibraryPath)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>
-      </AdditionalDependencies>
-      <SharedLibrarySearchPath>$(OutDir);%(SharedLibrarySearchPath);$(Sysroot)\usr\lib;</SharedLibrarySearchPath>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <CompileAs>CompileAsCpp</CompileAs>
-      <AdditionalOptions>-Wno-unused-value -Wno-unused-variable -Wno-switch</AdditionalOptions>
-      <AdditionalIncludeDirectories>..\..\..\gpk\llc;..\..\..\gpk\gpk;$(Sysroot)\usr\include; $(Sysroot)\..\..\..\sysroot\usr; $(StlIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\gpk\llc;..\..\..\gpk\gpk; $(Sysroot)\usr\include; $(Sysroot)\..\..\..\sysroot\usr; $(StlIncludeDirectories)</AdditionalIncludeDirectories>
       <CppLanguageStandard>c++1y</CppLanguageStandard>
+      <AdditionalOptions>-Wno-unused-value -Wno-unused-variable -Wno-switch</AdditionalOptions>
     </ClCompile>
     <Link>
       <LibraryDependencies>%(LibraryDependencies);GLESv1_CM;EGL;</LibraryDependencies>
-      <AdditionalLibraryDirectories>$(OutDir); %(AdditionalLibraryDirectories);$(ToolchainPrebuiltPath)\lib\gcc\x86_64-linux-android\$(ToolchainFullVersionName);$(StlLibraryPath)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>
-      </AdditionalDependencies>
-      <SharedLibrarySearchPath>$(OutDir);%(SharedLibrarySearchPath);$(Sysroot)\usr\lib;</SharedLibrarySearchPath>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
     <ClCompile>
       <CompileAs>CompileAsCpp</CompileAs>
-      <AdditionalOptions>-Wno-unused-value -Wno-unused-variable -Wno-switch</AdditionalOptions>
-      <AdditionalIncludeDirectories>..\..\..\gpk\llc;..\..\..\gpk\gpk;$(Sysroot)\usr\include; $(Sysroot)\..\..\..\sysroot\usr; $(StlIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\gpk\llc;..\..\..\gpk\gpk; $(Sysroot)\usr\include; $(Sysroot)\..\..\..\sysroot\usr; $(StlIncludeDirectories)</AdditionalIncludeDirectories>
       <CppLanguageStandard>c++1y</CppLanguageStandard>
-      <PreprocessorDefinitions>_DEBUG; </PreprocessorDefinitions>
+      <AdditionalOptions>-Wno-unused-value -Wno-unused-variable -Wno-switch</AdditionalOptions>
+      <PreprocessorDefinitions>_DEBUG</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <LibraryDependencies>%(LibraryDependencies);GLESv1_CM;EGL;</LibraryDependencies>
-      <AdditionalLibraryDirectories>$(OutDir); %(AdditionalLibraryDirectories);$(ToolchainPrebuiltPath)\lib\gcc\i686-linux-android\$(ToolchainFullVersionName);$(StlLibraryPath)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>
-      </AdditionalDependencies>
-      <SharedLibrarySearchPath>$(OutDir);%(SharedLibrarySearchPath);$(Sysroot)\usr\lib;</SharedLibrarySearchPath>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
     <ClCompile>
       <CompileAs>CompileAsCpp</CompileAs>
-      <AdditionalOptions>-Wno-unused-value -Wno-unused-variable -Wno-switch</AdditionalOptions>
-      <AdditionalIncludeDirectories>..\..\..\gpk\llc;..\..\..\gpk\gpk;$(Sysroot)\usr\include; $(Sysroot)\..\..\..\sysroot\usr; $(StlIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\gpk\llc;..\..\..\gpk\gpk; $(Sysroot)\usr\include; $(Sysroot)\..\..\..\sysroot\usr; $(StlIncludeDirectories)</AdditionalIncludeDirectories>
       <CppLanguageStandard>c++1y</CppLanguageStandard>
+      <AdditionalOptions>-Wno-unused-value -Wno-unused-variable -Wno-switch</AdditionalOptions>
     </ClCompile>
     <Link>
       <LibraryDependencies>%(LibraryDependencies);GLESv1_CM;EGL;</LibraryDependencies>
-      <AdditionalLibraryDirectories>$(OutDir); %(AdditionalLibraryDirectories);$(ToolchainPrebuiltPath)\lib\gcc\i686-linux-android\$(ToolchainFullVersionName);$(StlLibraryPath)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>
-      </AdditionalDependencies>
-      <SharedLibrarySearchPath>$(OutDir);%(SharedLibrarySearchPath);$(Sysroot)\usr\lib;</SharedLibrarySearchPath>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
