@@ -225,36 +225,41 @@ void android_main(struct android_app* state) {
 
 		if (engine.animating) {
 			// Done with events; draw next animation frame.
-			engine.state.angle += .01f;
+			engine.state.angle += 1.0f / 60.0f;// .01f;
 			if (engine.state.angle > 1) 
 				engine.state.angle = 0;
 
 			//engine_draw_frame(&engine);	// Drawing is throttled to the screen update rate, so there is no need to do timing here.
 
+			pthread_mutex_lock(&state->mutex);
 			if(state->window) {
 				target.resize(ANativeWindow_getWidth(state->window), ANativeWindow_getHeight(state->window), ::gpk::SColorBGRA{});
-				::gpk::drawLine(target.View, ::gpk::SColorBGRA{0xFF, 0x00, 0xFF, 0xFF}, ::gpk::SLine2D<uint32_t>{{}, target.metrics()});
-
+				::gpk::drawLine(target.View, ::gpk::SColorBGRA{0x00, 0x00, 0xFF, 0xFF}, ::gpk::SLine2D<uint32_t>{{}, target.metrics() * (double)engine.state.angle});
+			
 				ANativeWindow_Buffer	buffer;
 				ARect					dirtyBounds				= {0, 0, (int32_t)target.metrics().x, (int32_t)target.metrics().y};
-
-				ANativeWindow_lock(state->window, &buffer, &dirtyBounds);
-				switch(buffer.format) {
-				case  AHARDWAREBUFFER_FORMAT_R8G8B8A8_UNORM	: 
-					memcpy(buffer.bits, target.View.begin(), buffer.width * buffer.height * sizeof(::gpk::SColorBGRA));
-					break;
-				case  AHARDWAREBUFFER_FORMAT_R8G8B8_UNORM	: 
-					for(uint32_t iPix = 0, coutnPix = target.Texels.size(); iPix < coutnPix; ++iPix) {
-						::gpk::SColorBGRA								& srcPix						= target.Texels[iPix];
-						((::gpk::SColorBGR*)buffer.bits)[iPix]		= {srcPix.b, srcPix.g, srcPix.r};
+			
+				if(0 == ANativeWindow_lock(state->window, &buffer, &dirtyBounds)) {
+					switch(buffer.format) {
+					case  AHARDWAREBUFFER_FORMAT_R8G8B8X8_UNORM	: 
+					case  AHARDWAREBUFFER_FORMAT_R8G8B8A8_UNORM	: 
+						for(uint32_t y = 0, maxY = ::gpk::min((uint32_t)buffer.height, target.metrics().y); y < maxY; ++y)
+							memcpy(&((char*)buffer.bits)[y * (buffer.stride * sizeof(::gpk::SColorBGRA))], target[y].begin(), ::gpk::min((uint32_t)buffer.stride, target.metrics().x) * sizeof(::gpk::SColorBGRA));
+						break;
+					case  AHARDWAREBUFFER_FORMAT_R8G8B8_UNORM	: 
+						for(uint32_t iPix = 0, coutnPix = target.Texels.size(); iPix < coutnPix; ++iPix) {
+							::gpk::SColorBGRA								& srcPix						= target.Texels[iPix];
+							((::gpk::SColorBGR*)buffer.bits)[iPix]		= {srcPix.b, srcPix.g, srcPix.r};
+						}
+						break;
+					default:
+						error_printf("Unsupported hardware buffer: %X.", (uint32_t)buffer.format);
 					}
-					break;
-				default:
-					error_printf("Unsupported hardware buffer: %X.", (uint32_t)buffer.format);
+					buffer.bits;
+					ANativeWindow_unlockAndPost(state->window);
 				}
-				buffer.bits;
-				ANativeWindow_unlockAndPost(state->window);
 			}
+			pthread_mutex_unlock(&state->mutex);
 		}
 	}
 }
