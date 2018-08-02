@@ -7,8 +7,13 @@
 #include <GLES/gl.h>
 #include <android/sensor.h>
 #include <android/log.h>
+#include <include/android/hardware_buffer.h>
 
 #include "android_native_app_glue.h"
+
+#include "gpk_bitmap_target.h"
+#include "gpk_image.h"
+#include "gpk_color.h"
 
 #define LOGI(...) ((void)__android_log_print(ANDROID_LOG_INFO, "AndroidProject1.NativeActivity", __VA_ARGS__))
 #define LOGW(...) ((void)__android_log_print(ANDROID_LOG_WARN, "AndroidProject1.NativeActivity", __VA_ARGS__))
@@ -35,87 +40,91 @@ struct engine {
 	struct saved_state	state;
 };
 
-// Initialize an EGL context for the current display.
-static int				engine_init_display			(struct engine* engine)			{
-	// initialize OpenGL ES and EGL
+//// Initialize an EGL context for the current display.
+//static int				engine_init_display			(struct engine* engine)			{
+//	// initialize OpenGL ES and EGL
+//
+//	// Here specify the attributes of the desired configuration. Below, we select an EGLConfig with at least 8 bits per color component compatible with on-screen windows.
+//	const EGLint attribs[] = 
+//		{ EGL_SURFACE_TYPE, EGL_WINDOW_BIT
+//		, EGL_BLUE_SIZE	, 8
+//		, EGL_GREEN_SIZE, 8
+//		, EGL_RED_SIZE	, 8
+//		, EGL_NONE
+//		};
+//	EGLint							w, h, format;
+//	EGLint							numConfigs;
+//	EGLConfig						config;
+//	EGLSurface						surface;
+//	EGLContext						context;
+//	EGLDisplay						display					= eglGetDisplay(EGL_DEFAULT_DISPLAY);
+//
+//	eglInitialize		(display, 0, 0);
+//	eglChooseConfig		(display, attribs, &config, 1, &numConfigs);		// Here, the application chooses the configuration it desires. In this sample, we have a very simplified selection process, where we pick the first EGLConfig that matches our criteria.
+//	eglGetConfigAttrib	(display, config, EGL_NATIVE_VISUAL_ID, &format);		// EGL_NATIVE_VISUAL_ID is an attribute of the EGLConfig that is guaranteed to be accepted by ANativeWindow_setBuffersGeometry(). As soon as we picked a EGLConfig, we can safely reconfigure the ANativeWindow buffers to match, using EGL_NATIVE_VISUAL_ID. 
+//
+//	ANativeWindow_setBuffersGeometry(engine->app->window, 0, 0, format);
+//
+//	surface = eglCreateWindowSurface(display, config, engine->app->window, NULL);
+//	context = eglCreateContext		(display, config, NULL, NULL);
+//
+//	if (eglMakeCurrent(display, surface, surface, context) == EGL_FALSE) {
+//		LOGW("Unable to eglMakeCurrent");
+//		return -1;
+//	}
+//
+//	eglQuerySurface(display, surface, EGL_WIDTH, &w);
+//	eglQuerySurface(display, surface, EGL_HEIGHT, &h);
+//
+//	engine->display		= display;
+//	engine->context		= context;
+//	engine->surface		= surface;
+//	engine->width		= w;
+//	engine->height		= h;
+//	engine->state.angle	= 0;
+//
+//	// Initialize GL state.
+//	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_FASTEST);
+//	glEnable(GL_CULL_FACE);
+//	glShadeModel(GL_SMOOTH);
+//	glDisable(GL_DEPTH_TEST);
+//
+//	return 0;
+//}
 
-	// Here specify the attributes of the desired configuration. Below, we select an EGLConfig with at least 8 bits per color component compatible with on-screen windows.
-	const EGLint attribs[] = 
-		{ EGL_SURFACE_TYPE, EGL_WINDOW_BIT
-		, EGL_BLUE_SIZE	, 8
-		, EGL_GREEN_SIZE, 8
-		, EGL_RED_SIZE	, 8
-		, EGL_NONE
-		};
-	EGLint							w, h, format;
-	EGLint							numConfigs;
-	EGLConfig						config;
-	EGLSurface						surface;
-	EGLContext						context;
-	EGLDisplay						display					= eglGetDisplay(EGL_DEFAULT_DISPLAY);
+//// Just the current frame in the display.
+//static void engine_draw_frame(struct engine* engine) {
+//	if (engine->display == NULL) // No display.
+//		return;
+//
+//	// Just fill the screen with a color.
+//	glClearColor(((float)engine->state.x) / engine->width, engine->state.angle, ((float)engine->state.y) / engine->height, 1);
+//	glClear(GL_COLOR_BUFFER_BIT);
+//
+//	//glDrawPixels(engine->width,  engine->height, GL_BGRA, GL_UNSIGNED_INT_8_8_8_8, target.View.begin());
+//
+//	//glPixelStorei();
+//	eglSwapBuffers(engine->display, engine->surface);
+//
+//}
 
-	eglInitialize		(display, 0, 0);
-	eglChooseConfig		(display, attribs, &config, 1, &numConfigs);		// Here, the application chooses the configuration it desires. In this sample, we have a very simplified selection process, where we pick the first EGLConfig that matches our criteria.
-	eglGetConfigAttrib	(display, config, EGL_NATIVE_VISUAL_ID, &format);		// EGL_NATIVE_VISUAL_ID is an attribute of the EGLConfig that is guaranteed to be accepted by ANativeWindow_setBuffersGeometry(). As soon as we picked a EGLConfig, we can safely reconfigure the ANativeWindow buffers to match, using EGL_NATIVE_VISUAL_ID. 
-
-	ANativeWindow_setBuffersGeometry(engine->app->window, 0, 0, format);
-
-	surface = eglCreateWindowSurface(display, config, engine->app->window, NULL);
-	context = eglCreateContext		(display, config, NULL, NULL);
-
-	if (eglMakeCurrent(display, surface, surface, context) == EGL_FALSE) {
-		LOGW("Unable to eglMakeCurrent");
-		return -1;
-	}
-
-	eglQuerySurface(display, surface, EGL_WIDTH, &w);
-	eglQuerySurface(display, surface, EGL_HEIGHT, &h);
-
-	engine->display		= display;
-	engine->context		= context;
-	engine->surface		= surface;
-	engine->width		= w;
-	engine->height		= h;
-	engine->state.angle	= 0;
-
-	// Initialize GL state.
-	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_FASTEST);
-	glEnable(GL_CULL_FACE);
-	glShadeModel(GL_SMOOTH);
-	glDisable(GL_DEPTH_TEST);
-
-	return 0;
-}
-
-// Just the current frame in the display.
-static void engine_draw_frame(struct engine* engine) {
-	if (engine->display == NULL) // No display.
-		return;
-
-	// Just fill the screen with a color.
-	glClearColor(((float)engine->state.x) / engine->width, engine->state.angle, ((float)engine->state.y) / engine->height, 1);
-	glClear(GL_COLOR_BUFFER_BIT);
-
-	eglSwapBuffers(engine->display, engine->surface);
-}
-
-// Tear down the EGL context currently associated with the display.
-static void engine_term_display(struct engine* engine) {
-	if (engine->display != EGL_NO_DISPLAY) {
-		eglMakeCurrent(engine->display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT);
-		if (engine->context != EGL_NO_CONTEXT) 
-			eglDestroyContext(engine->display, engine->context);
-		
-		if (engine->surface != EGL_NO_SURFACE) 
-			eglDestroySurface(engine->display, engine->surface);
-		
-		eglTerminate(engine->display);
-	}
-	engine->animating = 0;
-	engine->display = EGL_NO_DISPLAY;
-	engine->context = EGL_NO_CONTEXT;
-	engine->surface = EGL_NO_SURFACE;
-}
+//// Tear down the EGL context currently associated with the display.
+//static void engine_term_display(struct engine* engine) {
+//	if (engine->display != EGL_NO_DISPLAY) {
+//		eglMakeCurrent(engine->display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT);
+//		if (engine->context != EGL_NO_CONTEXT) 
+//			eglDestroyContext(engine->display, engine->context);
+//		
+//		if (engine->surface != EGL_NO_SURFACE) 
+//			eglDestroySurface(engine->display, engine->surface);
+//		
+//		eglTerminate(engine->display);
+//	}
+//	engine->animating = 0;
+//	engine->display = EGL_NO_DISPLAY;
+//	engine->context = EGL_NO_CONTEXT;
+//	engine->surface = EGL_NO_SURFACE;
+//}
 
 // Process the next input event.
 static int32_t engine_handle_input(struct android_app* app, AInputEvent* event) {
@@ -123,6 +132,7 @@ static int32_t engine_handle_input(struct android_app* app, AInputEvent* event) 
 	if (AInputEvent_getType(event) == AINPUT_EVENT_TYPE_MOTION) {
 		engine->state.x = AMotionEvent_getX(event, 0);
 		engine->state.y = AMotionEvent_getY(event, 0);
+		info_printf("Input event {x: %u, y: %u}.", engine->state.x, engine->state.y);
 		return 1;
 	}
 	return 0;
@@ -139,12 +149,12 @@ static void engine_handle_cmd(struct android_app* app, int32_t cmd) {
 		break;
 	case APP_CMD_INIT_WINDOW: 
 		if (engine->app->window != NULL) {	// The window is being shown, get it ready.
-			engine_init_display(engine);
-			engine_draw_frame(engine);
+			//engine_init_display(engine);
+			//engine_draw_frame(engine);
 		}
 		break;
 	case APP_CMD_TERM_WINDOW:
-		engine_term_display(engine);	 // The window is being hidden or closed, clean it up.
+		//engine_term_display(engine);	 // The window is being hidden or closed, clean it up.
 		break;
 	case APP_CMD_GAINED_FOCUS: 
 		if (engine->accelerometerSensor != NULL) {	// When our app gains focus, we start monitoring the accelerometer.
@@ -157,7 +167,7 @@ static void engine_handle_cmd(struct android_app* app, int32_t cmd) {
 			ASensorEventQueue_disableSensor(engine->sensorEventQueue, engine->accelerometerSensor);
 		// Also stop animating.
 		engine->animating = 0;
-		engine_draw_frame(engine);
+		//engine_draw_frame(engine);
 		break;
 	}
 }
@@ -184,6 +194,8 @@ void android_main(struct android_app* state) {
 
 	// loop waiting for stuff to do.
 
+	::gpk::SImage<::gpk::SColorBGRA>		target;
+
 	while (1) {
 		// Read all pending events.
 		int										ident;
@@ -191,8 +203,7 @@ void android_main(struct android_app* state) {
 		struct android_poll_source				* source;
 
 		// If not animating, we will block forever waiting for events.
-		// If animating, we loop until all events are read, then continue
-		// to draw the next frame of animation.
+		// If animating, we loop until all events are read, then continue to draw the next frame of animation.
 		while ((ident = ALooper_pollAll(engine.animating ? 0 : -1, NULL, &events,(void**)&source)) >= 0) {
 			if (source != NULL)		// Process this event.
 				source->process(state, source);
@@ -201,13 +212,13 @@ void android_main(struct android_app* state) {
 				if (engine.accelerometerSensor != NULL) {
 					ASensorEvent event;
 					while (ASensorEventQueue_getEvents(engine.sensorEventQueue, &event, 1) > 0) {
-						LOGI("accelerometer: x=%f y=%f z=%f", event.acceleration.x, event.acceleration.y, event.acceleration.z);
+						//LOGI("accelerometer: x=%f y=%f z=%f", event.acceleration.x, event.acceleration.y, event.acceleration.z);
 					}
 				}
 			}
 
 			if (state->destroyRequested != 0) {	// Check if we are exiting.
-				engine_term_display(&engine);
+				//engine_term_display(&engine);
 				return;
 			}
 		}
@@ -217,8 +228,33 @@ void android_main(struct android_app* state) {
 			engine.state.angle += .01f;
 			if (engine.state.angle > 1) 
 				engine.state.angle = 0;
-			
-			engine_draw_frame(&engine);	// Drawing is throttled to the screen update rate, so there is no need to do timing here.
+
+			//engine_draw_frame(&engine);	// Drawing is throttled to the screen update rate, so there is no need to do timing here.
+
+			if(state->window) {
+				target.resize(ANativeWindow_getWidth(state->window), ANativeWindow_getHeight(state->window), ::gpk::SColorBGRA{});
+				::gpk::drawLine(target.View, ::gpk::SColorBGRA{0xFF, 0x00, 0xFF, 0xFF}, ::gpk::SLine2D<uint32_t>{{}, target.metrics()});
+
+				ANativeWindow_Buffer	buffer;
+				ARect					dirtyBounds				= {0, 0, (int32_t)target.metrics().x, (int32_t)target.metrics().y};
+
+				ANativeWindow_lock(state->window, &buffer, &dirtyBounds);
+				switch(buffer.format) {
+				case  AHARDWAREBUFFER_FORMAT_R8G8B8A8_UNORM	: 
+					memcpy(buffer.bits, target.View.begin(), buffer.width * buffer.height * sizeof(::gpk::SColorBGRA));
+					break;
+				case  AHARDWAREBUFFER_FORMAT_R8G8B8_UNORM	: 
+					for(uint32_t iPix = 0, coutnPix = target.Texels.size(); iPix < coutnPix; ++iPix) {
+						::gpk::SColorBGRA								& srcPix						= target.Texels[iPix];
+						((::gpk::SColorBGR*)buffer.bits)[iPix]		= {srcPix.b, srcPix.g, srcPix.r};
+					}
+					break;
+				default:
+					error_printf("Unsupported hardware buffer: %X.", (uint32_t)buffer.format);
+				}
+				buffer.bits;
+				ANativeWindow_unlockAndPost(state->window);
+			}
 		}
 	}
 }

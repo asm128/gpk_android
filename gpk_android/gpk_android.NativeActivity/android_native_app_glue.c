@@ -210,7 +210,7 @@ static	struct android_app*						android_app_create				(ANativeActivity* activity
 
 	int													msgpipe[2]						= {};
     if (pipe(msgpipe)) {
-        LOGE("could not create pipe: %s", strerror(errno));
+        LOGE("could not create pipe: %s.\n", strerror(errno));
         return NULL;
     }
     android_app->msgread							= msgpipe[0];

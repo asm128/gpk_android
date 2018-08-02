@@ -8,6 +8,10 @@ EndProject
 Project("{39E2626F-3545-4960-A6E8-258AD8476CE5}") = "gpk_android.Packaging", "gpk_android\gpk_android.Packaging\gpk_android.Packaging.androidproj", "{CE196C08-9212-4803-AB99-68F9CB6E1F93}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gpk_android.NativeActivity", "gpk_android\gpk_android.NativeActivity\gpk_android.NativeActivity.vcxproj", "{F8317BE0-BD51-4B7E-89EC-D8210A404F2B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D04FC04F-3293-42A2-AD98-0ECB9FB86900} = {D04FC04F-3293-42A2-AD98-0ECB9FB86900}
+		{3ED235AC-E767-4F2D-A41D-5929142463FB} = {3ED235AC-E767-4F2D-A41D-5929142463FB}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "android_llc", "android_llc\android_llc.vcxproj", "{3ED235AC-E767-4F2D-A41D-5929142463FB}"
 EndProject
