@@ -11,6 +11,8 @@
 
 #include "android_native_app_glue.h"
 
+#include "gpk_runtime.h"
+#include "gpk_runtime_module.h"
 #include "gpk_bitmap_target.h"
 #include "gpk_image.h"
 #include "gpk_color.h"
@@ -127,8 +129,8 @@ struct engine {
 //}
 
 // Process the next input event.
-static int32_t engine_handle_input(struct android_app* app, AInputEvent* event) {
-	struct engine* engine = (struct engine*)app->userData;
+static int32_t									engine_handle_input				(struct android_app* app, AInputEvent* event)	{
+	struct engine										* engine						= (struct engine*)app->userData;
 	if (AInputEvent_getType(event) == AINPUT_EVENT_TYPE_MOTION) {
 		engine->state.x = AMotionEvent_getX(event, 0);
 		engine->state.y = AMotionEvent_getY(event, 0);
@@ -139,7 +141,7 @@ static int32_t engine_handle_input(struct android_app* app, AInputEvent* event) 
 }
 
 // Process the next main command.
-static void engine_handle_cmd(struct android_app* app, int32_t cmd) {
+static void										engine_handle_cmd				(struct android_app* app, int32_t cmd)			{
 	struct engine										* engine						= (struct engine*)app->userData;
 	switch (cmd) {
 	case APP_CMD_SAVE_STATE: // The system has asked us to save our current state.  Do so.
@@ -166,41 +168,81 @@ static void engine_handle_cmd(struct android_app* app, int32_t cmd) {
 		if (engine->accelerometerSensor != NULL)	// When our app loses focus, we stop monitoring the accelerometer. This is to avoid consuming battery while not being used.
 			ASensorEventQueue_disableSensor(engine->sensorEventQueue, engine->accelerometerSensor);
 		// Also stop animating.
-		engine->animating = 0;
+		engine->animating								= 0;
 		//engine_draw_frame(engine);
 		break;
 	}
 }
 
-// This is the main entry point of a native application that is using android_native_app_glue.  It runs in its own thread, with its own event loop for receiving input events and doing other things.
-void android_main(struct android_app* state) {
-	struct engine							engine;
 
+void											android_test						(struct android_app* nativestate)			{
+	JNIEnv												* env;
+	JavaVM												* lJavaVM							= nativestate->activity->vm;
+	lJavaVM->AttachCurrentThread(&env, NULL);
+
+	//jobject												lNativeActivity						= nativestate->activity->clazz;
+	//jclass												intentClass							= env->FindClass("android/content/Intent");
+	//jstring												actionString						= env->NewStringUTF("Package Name. Class Name");
+	//jmethodID											newIntent							= env->GetMethodID(intentClass, "<init>", "()V");
+	//jobject												intent								= env->AllocObject(intentClass);
+	//env->CallVoidMethod(intent, newIntent);
+	//jmethodID											setAction							= env->GetMethodID(intentClass, "setAction","(Ljava/lang/String;)Landroid/content/Intent;");
+	//env->CallObjectMethod(intent, setAction, actionString);
+	//jclass												activityClass						= env->FindClass("android/app/Activity");
+	//jmethodID											startActivity						= env->GetMethodID(activityClass,"startActivity", "(Landroid/content/Intent;)V");
+	//jobject												intentObject						= env->NewObject(intentClass,newIntent);
+	//env->CallVoidMethod(intentObject, setAction, actionString);
+	//env->CallVoidMethod(lNativeActivity, startActivity, intentObject);
+
+	jclass												activityClass						= env->FindClass("android/app/NativeActivity");
+	jmethodID											getClassLoader						= env->GetMethodID(activityClass,"getClassLoader", "()Ljava/lang/ClassLoader;");
+	jobject												cls									= env->CallObjectMethod(nativestate->activity->clazz, getClassLoader);
+	jclass												classLoader							= env->FindClass("java/lang/ClassLoader");
+	jmethodID											findClass							= env->GetMethodID(classLoader, "loadClass", "(Ljava/lang/String;)Ljava/lang/Class;");
+	jmethodID											contextMethod						= env->GetMethodID(activityClass, "getApplicationContext", "()Landroid/content/Context;");
+	jobject												contextObj							= env->CallObjectMethod(nativestate->activity->clazz, contextMethod);
+	
+    //jclass												appClass							= env->GetObjectClass(contextObj);
+    //jmethodID											mid									= env->GetMethodID(appClass, "openURL", "(Ljava/lang/String;)V");
+	//if(mid)
+	//	env->CallVoidMethod(contextObj, mid, env->NewStringUTF("www.google.com")); //llamar a la funcion
+
+	lJavaVM->DetachCurrentThread();
+}
+
+void jni_openURL(const char* url) {
+}
+
+// This is the main entry point of a native application that is using android_native_app_glue.  It runs in its own thread, with its own event loop for receiving input events and doing other things.
+void											android_main						(struct android_app* state)			{
+	struct engine										engine								= {};
+	::gpk::SRuntimeValues								runtimeValues						= {};
+	runtimeValues.PlatformDetail.Activity			= state->activity;
 	memset(&engine, 0, sizeof(engine));
-	state->userData						= &engine;
-	state->onAppCmd						= engine_handle_cmd;
-	state->onInputEvent					= engine_handle_input;
-	engine.app							= state;
+	state->userData									= &engine;
+	state->onAppCmd									= engine_handle_cmd;
+	state->onInputEvent								= engine_handle_input;
+	engine.app										= state;
 
 	// Prepare to monitor accelerometer
-	engine.sensorManager				= ASensorManager_getInstance();
-	engine.accelerometerSensor			= ASensorManager_getDefaultSensor(engine.sensorManager, ASENSOR_TYPE_ACCELEROMETER);
-	engine.sensorEventQueue				= ASensorManager_createEventQueue(engine.sensorManager, state->looper, LOOPER_ID_USER, NULL, NULL);
+	engine.sensorManager							= ASensorManager_getInstance();
+	engine.accelerometerSensor						= ASensorManager_getDefaultSensor(engine.sensorManager, ASENSOR_TYPE_ACCELEROMETER);
+	engine.sensorEventQueue							= ASensorManager_createEventQueue(engine.sensorManager, state->looper, LOOPER_ID_USER, NULL, NULL);
 
-	if (state->savedState != NULL)			// We are starting with a previous saved state; restore from it.
-		engine.state						= *(struct saved_state*)state->savedState;
+	if (state->savedState != NULL)						// We are starting with a previous saved state; restore from it.
+		engine.state									= *(struct saved_state*)state->savedState;
 
-	engine.animating					= 1;
+	engine.animating								= 1;
 
 	// loop waiting for stuff to do.
 
-	::gpk::SImage<::gpk::SColorBGRA>		target;
+	::gpk::SImage<::gpk::SColorBGRA>					target;
 
 	while (1) {
 		// Read all pending events.
-		int										ident;
-		int										events;
-		struct android_poll_source				* source;
+		int													ident;
+		int													events;
+		struct android_poll_source							* source;
 
 		// If not animating, we will block forever waiting for events.
 		// If animating, we loop until all events are read, then continue to draw the next frame of animation.
@@ -210,7 +252,7 @@ void android_main(struct android_app* state) {
 
 			if (ident == LOOPER_ID_USER) {	// If a sensor has data, process it now.
 				if (engine.accelerometerSensor != NULL) {
-					ASensorEvent event;
+					ASensorEvent										event;
 					while (ASensorEventQueue_getEvents(engine.sensorEventQueue, &event, 1) > 0) {
 						//LOGI("accelerometer: x=%f y=%f z=%f", event.acceleration.x, event.acceleration.y, event.acceleration.z);
 					}
@@ -225,30 +267,36 @@ void android_main(struct android_app* state) {
 
 		if (engine.animating) {
 			// Done with events; draw next animation frame.
-			engine.state.angle += 1.0f / 60.0f;// .01f;
+			engine.state.angle								+= 1.0f / 60.0f;// .01f;
 			if (engine.state.angle > 1) 
-				engine.state.angle = 0;
+				engine.state.angle								= 0;
 
 			//engine_draw_frame(&engine);	// Drawing is throttled to the screen update rate, so there is no need to do timing here.
 
 			pthread_mutex_lock(&state->mutex);
 			if(state->window) {
-				target.resize(ANativeWindow_getWidth(state->window), ANativeWindow_getHeight(state->window), ::gpk::SColorBGRA{});
+				const ::gpk::SCoord2<uint32_t>						targetSizeOriginal					= {(uint32_t)ANativeWindow_getWidth(state->window), (uint32_t)ANativeWindow_getHeight(state->window)};
+				::gpk::SCoord2<uint32_t>							targetSize							= {};
+				targetSize.x									= ::gpk::max(targetSizeOriginal.x, targetSizeOriginal.y);
+				targetSize.y									= ::gpk::min(targetSizeOriginal.x, targetSizeOriginal.y);
+				target.resize(targetSize.x, targetSize.y, ::gpk::SColorBGRA{});
 				::gpk::drawLine(target.View, ::gpk::SColorBGRA{0x00, 0x00, 0xFF, 0xFF}, ::gpk::SLine2D<uint32_t>{{}, target.metrics() * (double)engine.state.angle});
 			
-				ANativeWindow_Buffer	buffer;
-				ARect					dirtyBounds				= {0, 0, (int32_t)target.metrics().x, (int32_t)target.metrics().y};
+				ANativeWindow_Buffer								buffer;
+				ARect												dirtyBounds							= {0, 0, (int32_t)target.metrics().x, (int32_t)target.metrics().y};
 			
 				if(0 == ANativeWindow_lock(state->window, &buffer, &dirtyBounds)) {
 					switch(buffer.format) {
 					case  AHARDWAREBUFFER_FORMAT_R8G8B8X8_UNORM	: 
 					case  AHARDWAREBUFFER_FORMAT_R8G8B8A8_UNORM	: 
-						for(uint32_t y = 0, maxY = ::gpk::min((uint32_t)buffer.height, target.metrics().y); y < maxY; ++y)
-							memcpy(&((char*)buffer.bits)[y * (buffer.stride * sizeof(::gpk::SColorBGRA))], target[y].begin(), ::gpk::min((uint32_t)buffer.stride, target.metrics().x) * sizeof(::gpk::SColorBGRA));
+						if(buffer.height == target.metrics().y)
+							for(uint32_t y = 0, maxY = ::gpk::min((uint32_t)buffer.height, target.metrics().y); y < maxY; ++y)
+								memcpy(&((char*)buffer.bits)[y * (buffer.stride * sizeof(::gpk::SColorBGRA))], target[y].begin(), ::gpk::min((uint32_t)buffer.stride, target.metrics().x) * sizeof(::gpk::SColorBGRA));
+
 						break;
 					case  AHARDWAREBUFFER_FORMAT_R8G8B8_UNORM	: 
 						for(uint32_t iPix = 0, coutnPix = target.Texels.size(); iPix < coutnPix; ++iPix) {
-							::gpk::SColorBGRA								& srcPix						= target.Texels[iPix];
+							::gpk::SColorBGRA								& srcPix							= target.Texels[iPix];
 							((::gpk::SColorBGR*)buffer.bits)[iPix]		= {srcPix.b, srcPix.g, srcPix.r};
 						}
 						break;
@@ -260,6 +308,7 @@ void android_main(struct android_app* state) {
 				}
 			}
 			pthread_mutex_unlock(&state->mutex);
+			android_test(state);
 		}
 	}
 }
