@@ -239,9 +239,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="android_intents.h" />
     <ClInclude Include="android_native_app_glue.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="android_intents.cpp" />
     <ClCompile Include="android_native_app_glue.c" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
