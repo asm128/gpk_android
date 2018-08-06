@@ -153,6 +153,7 @@
       <CppLanguageStandard>c++1y</CppLanguageStandard>
       <AdditionalOptions>-Wno-unused-value -Wno-unused-variable -Wno-switch</AdditionalOptions>
       <PreprocessorDefinitions>_DEBUG</PreprocessorDefinitions>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <LibraryDependencies>%(LibraryDependencies);GLESv1_CM;EGL;</LibraryDependencies>
@@ -164,6 +165,7 @@
       <AdditionalIncludeDirectories>..\..\..\gpk\llc;..\..\..\gpk\gpk; $(Sysroot)\usr\include; $(Sysroot)\..\..\..\sysroot\usr; $(StlIncludeDirectories)</AdditionalIncludeDirectories>
       <CppLanguageStandard>c++1y</CppLanguageStandard>
       <AdditionalOptions>-Wno-unused-value -Wno-unused-variable -Wno-switch</AdditionalOptions>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <LibraryDependencies>%(LibraryDependencies);GLESv1_CM;EGL;</LibraryDependencies>
@@ -176,6 +178,7 @@
       <CppLanguageStandard>c++1y</CppLanguageStandard>
       <AdditionalOptions>-Wno-unused-value -Wno-unused-variable -Wno-switch</AdditionalOptions>
       <PreprocessorDefinitions>_DEBUG</PreprocessorDefinitions>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <LibraryDependencies>%(LibraryDependencies);GLESv1_CM;EGL;</LibraryDependencies>
@@ -187,6 +190,7 @@
       <AdditionalIncludeDirectories>..\..\..\gpk\llc;..\..\..\gpk\gpk; $(Sysroot)\usr\include; $(Sysroot)\..\..\..\sysroot\usr; $(StlIncludeDirectories)</AdditionalIncludeDirectories>
       <CppLanguageStandard>c++1y</CppLanguageStandard>
       <AdditionalOptions>-Wno-unused-value -Wno-unused-variable -Wno-switch</AdditionalOptions>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <LibraryDependencies>%(LibraryDependencies);GLESv1_CM;EGL;</LibraryDependencies>
@@ -199,6 +203,7 @@
       <CppLanguageStandard>c++1y</CppLanguageStandard>
       <AdditionalOptions>-Wno-unused-value -Wno-unused-variable -Wno-switch</AdditionalOptions>
       <PreprocessorDefinitions>_DEBUG</PreprocessorDefinitions>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <LibraryDependencies>%(LibraryDependencies);GLESv1_CM;EGL;</LibraryDependencies>
@@ -210,6 +215,7 @@
       <AdditionalIncludeDirectories>..\..\..\gpk\llc;..\..\..\gpk\gpk; $(Sysroot)\usr\include; $(Sysroot)\..\..\..\sysroot\usr; $(StlIncludeDirectories)</AdditionalIncludeDirectories>
       <CppLanguageStandard>c++1y</CppLanguageStandard>
       <AdditionalOptions>-Wno-unused-value -Wno-unused-variable -Wno-switch</AdditionalOptions>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <LibraryDependencies>%(LibraryDependencies);GLESv1_CM;EGL;</LibraryDependencies>
@@ -222,6 +228,7 @@
       <CppLanguageStandard>c++1y</CppLanguageStandard>
       <AdditionalOptions>-Wno-unused-value -Wno-unused-variable -Wno-switch</AdditionalOptions>
       <PreprocessorDefinitions>_DEBUG</PreprocessorDefinitions>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <LibraryDependencies>%(LibraryDependencies);GLESv1_CM;EGL;</LibraryDependencies>
@@ -233,6 +240,7 @@
       <AdditionalIncludeDirectories>..\..\..\gpk\llc;..\..\..\gpk\gpk; $(Sysroot)\usr\include; $(Sysroot)\..\..\..\sysroot\usr; $(StlIncludeDirectories)</AdditionalIncludeDirectories>
       <CppLanguageStandard>c++1y</CppLanguageStandard>
       <AdditionalOptions>-Wno-unused-value -Wno-unused-variable -Wno-switch</AdditionalOptions>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <LibraryDependencies>%(LibraryDependencies);GLESv1_CM;EGL;</LibraryDependencies>

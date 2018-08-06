@@ -13,7 +13,7 @@
     <DebuggerFlavor>AndroidDebugger</DebuggerFlavor>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
-    <AndroidDeviceID>emulator-5554;sdk_google_phone_armv7</AndroidDeviceID>
+    <AndroidDeviceID>emulator-####;VisualStudio_android-23_arm_phone</AndroidDeviceID>
     <DebuggerFlavor>AndroidDebugger</DebuggerFlavor>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

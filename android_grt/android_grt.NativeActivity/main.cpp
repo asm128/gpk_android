@@ -15,6 +15,7 @@
 #include "gpk_bitmap_target.h"
 #include "gpk_image.h"
 #include "gpk_color.h"
+#include "gpk_runtime.h"
 
 #include "android_intents.h"
 
@@ -175,7 +176,7 @@ static void engine_handle_cmd(struct android_app* app, int32_t cmd) {
 	}
 }
 
-static bool native_open_url(struct android_app* app, const char *url)
+bool native_open_url(struct android_app* app, const char *url)
 {
 	using namespace NativeIntents;
 
@@ -191,7 +192,7 @@ static bool native_open_url(struct android_app* app, const char *url)
 
 // This is the main entry point of a native application that is using android_native_app_glue.  It runs in its own thread, with its own event loop for receiving input events and doing other things.
 void android_main(struct android_app* state) {
-	native_open_url(state, "http://www.example.com");
+	//native_open_url(state, "http://www.example.com");
 	struct engine							engine;
 
 	memset(&engine, 0, sizeof(engine));
@@ -210,10 +211,9 @@ void android_main(struct android_app* state) {
 
 	engine.animating					= 1;
 
-	// loop waiting for stuff to do.
-
 	::gpk::SImage<::gpk::SColorBGRA>		target;
 
+	// loop waiting for stuff to do.
 	while (1) {
 		// Read all pending events.
 		int										ident;
