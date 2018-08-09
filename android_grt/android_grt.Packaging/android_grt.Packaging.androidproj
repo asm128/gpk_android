@@ -156,6 +156,7 @@
     <AntProjectPropertiesFile Include="project.properties" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\android_test_grt_game\android_test_grt_game.vcxproj" />
     <ProjectReference Include="..\android_grt.NativeActivity\android_grt.NativeActivity.vcxproj">
       <Project>{68aa0bc9-54ff-4170-9804-604d1ebd5b51}</Project>
     </ProjectReference>

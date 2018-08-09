@@ -7,4 +7,7 @@
   <ItemGroup>
     <ClInclude Include="android_test_grt_game.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="game.s" />
+  </ItemGroup>
 </Project>

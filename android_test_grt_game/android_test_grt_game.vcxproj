@@ -199,6 +199,9 @@
   <ItemGroup>
     <ClInclude Include="android_test_grt_game.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="game.s" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
 </Project>

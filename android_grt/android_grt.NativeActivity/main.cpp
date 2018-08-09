@@ -8,7 +8,9 @@
 #include <android/sensor.h>
 #include <android/log.h>
 #include <memory>
+#include <dlfcn.h>
 #include <include/android/hardware_buffer.h>
+
 
 #include "android_native_app_glue.h"
 
@@ -16,6 +18,7 @@
 #include "gpk_image.h"
 #include "gpk_color.h"
 #include "gpk_runtime.h"
+#include "gpk_module.h"
 
 #include "android_intents.h"
 
@@ -192,7 +195,7 @@ bool native_open_url(struct android_app* app, const char *url)
 
 // This is the main entry point of a native application that is using android_native_app_glue.  It runs in its own thread, with its own event loop for receiving input events and doing other things.
 void android_main(struct android_app* state) {
-	//native_open_url(state, "http://www.example.com");
+	
 	struct engine							engine;
 
 	memset(&engine, 0, sizeof(engine));
@@ -210,6 +213,16 @@ void android_main(struct android_app* state) {
 		engine.state						= *(struct saved_state*)state->savedState;
 
 	engine.animating					= 1;
+
+	void									* handleModule				= GPK_LOAD_MODULE(".\\libandroid_test_grt_game.so");
+	if(handleModule) {
+		void* sym = dlsym(handleModule, "gpk_appCreate");
+		if(sym)
+			native_open_url(state, "http://www.example.com/q?symbol");
+		else
+			native_open_url(state, "http://www.example.com/q?module");
+		GPK_FREE_MODULE(handleModule);
+	}
 
 	::gpk::SImage<::gpk::SColorBGRA>		target;
 
@@ -267,7 +280,12 @@ void android_main(struct android_app* state) {
 					case  AHARDWAREBUFFER_FORMAT_R8G8B8A8_UNORM	: 
 						if(buffer.height == target.metrics().y)
 							for(uint32_t y = 0, maxY = ::gpk::min((uint32_t)buffer.height, target.metrics().y); y < maxY; ++y)
-								memcpy(&((char*)buffer.bits)[y * (buffer.stride * sizeof(::gpk::SColorBGRA))], target[y].begin(), ::gpk::min((uint32_t)buffer.stride, target.metrics().x) * sizeof(::gpk::SColorBGRA));
+							for(uint32_t x = 0, maxX = ::gpk::min((uint32_t)buffer.width , target.metrics().x); x < maxX; ++x) {
+								::gpk::SColorBGRA	orig = target[y][x];
+								uint32_t			idxTargetByte = y * (buffer.stride * sizeof(::gpk::SColorRGBA)) + sizeof(::gpk::SColorRGBA) * x;
+								(*(::gpk::SColorRGBA*)&((char*)buffer.bits)[idxTargetByte]) = {orig.r, orig.g, orig.b, orig.a};
+//								memcpy(&((char*)buffer.bits)[y * (buffer.stride * sizeof(::gpk::SColorBGRA))], target[y].begin(), ::gpk::min((uint32_t)buffer.stride, target.metrics().x) * sizeof(::gpk::SColorBGRA));
+							}
 
 						break;
 					case  AHARDWAREBUFFER_FORMAT_R8G8B8_UNORM	: 
